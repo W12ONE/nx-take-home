@@ -1,2 +1,6 @@
-packages: 
-  - "packages/*"
+packages:
+  - 'packages/*'
+  - 'packages/cli-tools/git/*'
+  - 'packages/cli-tools/*'
+onlyBuiltDependencies:
+  - 'esbuild'
