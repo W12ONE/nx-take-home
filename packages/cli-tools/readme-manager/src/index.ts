@@ -1,1 +1,1 @@
-export * from './lib/readme-manager.js';
+export * from './lib/update-readme-section.js';
