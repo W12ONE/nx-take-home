@@ -1,10 +1,10 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 
 import { join } from 'path';
-import { Command } from 'commander';
 import { projectDiscovery } from '@nx-take-home/project-discovery';
 import { countMultiProjectContributors } from '@nx-take-home/git-metrics';
 import { updateReadmeSection } from '@nx-take-home/readme-manager';
+import { Command } from 'commander';
 
 const program = new Command();
 
