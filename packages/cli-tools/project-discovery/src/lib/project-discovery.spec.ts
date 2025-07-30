@@ -6,20 +6,21 @@ vi.mock('fs', async () => {
   const actual = await vi.importActual<typeof import('fs')>('fs');
   return {
     ...actual,
+    existsSync: vi.fn(),
     readdirSync: vi.fn(),
     statSync: vi.fn(),
   };
 });
+
 import * as fs from 'fs';
+const mockExistsSync = fs.existsSync as Mock;
 const mockReaddirSync = fs.readdirSync as Mock;
 const mockStatSync = fs.statSync as Mock;
-
-(fs.readdirSync as typeof fs.readdirSync) = mockReaddirSync;
-(fs.statSync as typeof fs.statSync) = mockStatSync;
 
 describe('projectDiscovery', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockExistsSync.mockReturnValue(true); // ✅ default behavior
   });
 
   it('returns directories inside the packages folder', () => {
@@ -29,7 +30,6 @@ describe('projectDiscovery', () => {
     }));
 
     const result = projectDiscovery('/mock/repo');
-
     expect(result).toEqual(['a', 'proj-b']);
   });
 
@@ -41,5 +41,12 @@ describe('projectDiscovery', () => {
     expect(() => projectDiscovery('/mock/repo')).toThrowError(
       'Failed to read packages directory at /mock/repo/packages: Boom'
     );
+  });
+
+  it('returns empty array when packages folder does not exist', () => {
+    mockExistsSync.mockReturnValue(false); // simulate missing packages folder
+
+    const result = projectDiscovery('/mock/repo');
+    expect(result).toEqual([]);
   });
 });
