@@ -27,18 +27,21 @@ describe('getContributorsForPath', () => {
   it('returns a set of contributor emails from git log output', async () => {
     mockRaw.mockResolvedValue('a@example.com\nb@example.com\na@example.com\n');
 
-    const result = await getContributorsForPath('/some/path');
+    const result = await getContributorsForPath('/some/repo', 'packages/core');
 
     expect(result).toEqual(new Set(['a@example.com', 'b@example.com']));
-    expect(mockRaw).toHaveBeenCalledWith(
-      expect.arrayContaining(['log', '--pretty=format:%ae', '--', '.'])
-    );
+    expect(mockRaw).toHaveBeenCalledWith([
+      'log',
+      '--pretty=format:%ae',
+      '--',
+      'packages/core',
+    ]);
   });
 
   it('returns an empty set when git log returns no output', async () => {
     mockRaw.mockResolvedValue('');
 
-    const result = await getContributorsForPath('/some/path');
+    const result = await getContributorsForPath('/some/repo', 'packages/cli');
 
     expect(result).toEqual(new Set());
   });
@@ -46,8 +49,10 @@ describe('getContributorsForPath', () => {
   it('throws an error when git fails', async () => {
     mockRaw.mockRejectedValue(new Error('Git error'));
 
-    await expect(getContributorsForPath('/some/path')).rejects.toThrowError(
-      'Failed to get contributors for /some/path: Git error'
+    await expect(
+      getContributorsForPath('/some/repo', 'packages/broken')
+    ).rejects.toThrowError(
+      'Failed to get contributors for packages/broken: Git error'
     );
   });
 });

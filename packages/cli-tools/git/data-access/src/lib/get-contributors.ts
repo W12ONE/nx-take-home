@@ -2,16 +2,17 @@ import { simpleGit } from 'simple-git';
 import { resolve } from 'path';
 
 export async function getContributorsForPath(
-  path: string
+  repoRoot: string,
+  subPath: string
 ): Promise<Set<string>> {
-  const git = simpleGit(resolve(path));
+  const git = simpleGit(resolve(repoRoot));
 
   try {
     const log = await git.raw([
       'log',
-      '--pretty=format:%ae', // email only
+      '--pretty=format:%ae',
       '--',
-      '.',
+      subPath, // ← scoped path (e.g., 'packages/folderA')
     ]);
 
     const emails = log
@@ -22,7 +23,7 @@ export async function getContributorsForPath(
     return new Set(emails);
   } catch (err) {
     throw new Error(
-      `Failed to get contributors for ${path}: ${
+      `Failed to get contributors for ${subPath}: ${
         err instanceof Error ? err.message : String(err)
       }`
     );

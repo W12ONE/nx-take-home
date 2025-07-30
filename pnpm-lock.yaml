@@ -81,7 +81,11 @@ importers:
         specifier: ^3.28.0
         version: 3.28.0
 
-  packages/cli-tools/git/metrics: {}
+  packages/cli-tools/git/metrics:
+    devDependencies:
+      '@nx-take-home/git-data-access':
+        specifier: workspace:*
+        version: link:../data-access
 
   packages/cli-tools/project-discovery: {}
 
