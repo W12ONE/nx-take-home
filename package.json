@@ -8,6 +8,7 @@
     "@eslint/js": "^9.8.0",
     "@nx/eslint": "21.3.9",
     "@nx/eslint-plugin": "21.3.9",
+    "@nx/jest": "^21.3.9",
     "@nx/js": "21.3.9",
     "@nx/vite": "21.3.9",
     "@nx/web": "21.3.9",
@@ -34,6 +35,5 @@
     "typescript-eslint": "^8.29.0",
     "vite": "^6.0.0",
     "vitest": "^3.0.0"
-  },
-  "dependencies": {}
+  }
 }

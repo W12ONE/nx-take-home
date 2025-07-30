@@ -70,5 +70,10 @@
   },
   "dependencies": {
     "commander": "^14.0.0"
+  },
+  "devDependencies": {
+    "@nx-take-home/git-metrics": "workspace:*",
+    "@nx-take-home/project-discovery": "workspace:*",
+    "@nx-take-home/readme-manager": "workspace:*"
   }
 }

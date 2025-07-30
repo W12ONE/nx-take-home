@@ -16,5 +16,16 @@
     "eslint.config.js",
     "eslint.config.cjs",
     "eslint.config.mjs"
+  ],
+  "references": [
+    {
+      "path": "../../packages/cli-tools/readme-manager/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/cli-tools/project-discovery/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/cli-tools/git/metrics/tsconfig.lib.json"
+    }
   ]
 }

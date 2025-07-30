@@ -1,24 +1,40 @@
-import { projectDiscovery } from '@nx-coding-assignment/project-discovery';
-import { countMultiProjectContributors } from '@nx-coding-assignment/git-metrics';
-import { updateReadmeSection } from '@nx-coding-assignment/readme-manager';
+/* eslint-disable @nx/enforce-module-boundaries */
+
+import { join } from 'path';
 import { Command } from 'commander';
+import { projectDiscovery } from '@nx-take-home/project-discovery';
+import { countMultiProjectContributors } from '@nx-take-home/git-metrics';
+import { updateReadmeSection } from '@nx-take-home/readme-manager';
 
 const program = new Command();
+
+export async function runCli(repoRoot: string) {
+  console.time('⏱ Git contributor collection');
+  try {
+    const packagePaths = projectDiscovery(repoRoot).map((pkg) =>
+      join('packages', pkg)
+    );
+    if (packagePaths.length === 0) {
+      console.warn('⚠️ No valid packages found. Exiting.');
+      process.exit(0);
+    }
+    const count = await countMultiProjectContributors(repoRoot, packagePaths);
+    updateReadmeSection(repoRoot, count);
+    console.log(`✅ Counted ${count} cross-project contributors`);
+    console.timeEnd('⏱ Git contributor collection');
+  } catch (error) {
+    console.error(`❌ Error: ${(error as Error).message}`);
+    process.exit(1);
+  }
+}
 
 program
   .name('contributor-metrics')
   .description('Counts contributors who committed to multiple projects')
-  .argument('<repoPath>', 'Path to the git repository')
-  .action(async (repoPath) => {
-    try {
-      const projectPaths = projectDiscovery(repoPath);
-      const count = await countMultiProjectContributors(projectPaths);
-      updateReadmeSection(repoPath, count);
-      console.log(`✅ Counted ${count} cross-project contributors`);
-    } catch (error) {
-      console.error(`❌ Error: ${(error as Error).message}`);
-      process.exit(1);
-    }
-  });
+  .argument('<repoRoot>', 'Path to the git repository')
+  .action(runCli);
 
-program.parse();
+// Only run if called from CLI directly (not during tests)
+if (require.main === module) {
+  program.parse();
+}
