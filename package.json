@@ -2,7 +2,10 @@
   "name": "@nx-take-home/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "run-app-test-folder": "pnpm --filter git-metrics-gathering-cli exec tsx src/main.ts <path-to-test-repo>",
+    "run-app-nx": "pnpm --filter git-metrics-gathering-cli exec tsx src/main.ts <path-to-nx-repo"
+  },
   "private": true,
   "devDependencies": {
     "@eslint/js": "^9.8.0",

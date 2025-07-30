@@ -1,90 +1,76 @@
-# NxTakeHome
+# Git Metrics Gathering CLI (Nx Workspace)
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+> **Note:** This is the complete version of the CLI with PNPM.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+This monorepo contains a CLI tool written in **TypeScript** and structured as an **Nx workspace**. It analyzes Git contributor activity across multiple packages in a monorepo.
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/js?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+---
 
-## Finish your CI setup
+## 🛠 Tech Stack
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/ZKZ0udHkXq)
+- **TypeScript** – Fully type-safe implementation
+- **Commander** – CLI interface and argument parsing
+- **simple-git** – Lightweight Git wrapper for commit analytics
+- **tsx** – Run `.ts` files directly without precompilation
+- **Jest & Vitest** – Unit test coverage for CLI behavior
 
+---
 
-## Generate a library
+## 📦 Project Structure
 
-```sh
-npx nx g @nx/js:lib packages/pkg1 --publishable --importPath=@my-org/pkg1
+- `apps/git-metrics-gathering-cli-app/` – CLI entry point
+- `packages/cli-tools/` – Internal utilities:
+  - `git/data-access/` – Git operations
+  - `git/metrics/` – Contributor logic
+  - `project-discovery/` – Monorepo package discovery
+  - `readme-manager/` – Utility to update the README from CLI output
+
+---
+
+## ✅ Functionality
+
+Given a Git repo root path, the CLI:
+
+1. Discovers all local packages under `packages/`
+2. Aggregates commit authors per package
+3. Identifies contributors who worked across multiple packages
+4. Updates or adds a section in the repo’s `README.md` with the result
+
+---
+
+## 🧪 Test Results
+
+The CLI was tested on:
+
+- ✅ [`count-contributors-sample`](https://github.com/nrwl/count-contributors-sample)
+- ✅ [`nrwl/nx`](https://github.com/nrwl/nx)
+
+When run on the full Nx monorepo:
+
+- `packages/` contributors: **769**
+- Cross-project contributors: **229**
+- GitHub total contributors: **1,064**  
+  → _Difference expected — this CLI focuses only on contributors under `packages/*`_
+
+---
+
+## ⚙️ Usage
+
+### 1. Install
+
+```bash
+pnpm install
 ```
 
-## Run tasks
+### 2. Run the CLI
 
-To build the library use:
-
-```sh
-npx nx build pkg1
+```bash
+pnpm --filter git-metrics-gathering-cli exec tsx src/main.ts <path-to-repo>
 ```
 
-To run any task with Nx use:
+Or use preconfigured scripts (ensure paths are correct for your local environment):
 
-```sh
-npx nx <target> <project-name>
+```bash
+npm run run-app-test-folder
+npm run run-app-nx
 ```
-
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Versioning and releasing
-
-To version and release the library use
-
-```
-npx nx release
-```
-
-Pass `--dry-run` to see what would happen without actually releasing the library.
-
-[Learn more about Nx release &raquo;](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Keep TypeScript project references up to date
-
-Nx automatically updates TypeScript [project references](https://www.typescriptlang.org/docs/handbook/project-references.html) in `tsconfig.json` files to ensure they remain accurate based on your project dependencies (`import` or `require` statements). This sync is automatically done when running tasks such as `build` or `typecheck`, which require updated references to function correctly.
-
-To manually trigger the process to sync the project graph dependencies information to the TypeScript project references, run the following command:
-
-```sh
-npx nx sync
-```
-
-You can enforce that the TypeScript project references are always in the correct state when running in CI by adding a step to your CI job configuration that runs the following command:
-
-```sh
-npx nx sync:check
-```
-
-[Learn more about nx sync](https://nx.dev/reference/nx-commands#sync)
-
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/nx-api/js?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
