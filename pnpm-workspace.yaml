@@ -1,6 +1,8 @@
 packages:
-  - 'packages/*'
-  - 'packages/cli-tools/git/*'
-  - 'packages/cli-tools/*'
+  - packages/*
+  - packages/cli-tools/git/*
+  - packages/cli-tools/*
+
 onlyBuiltDependencies:
-  - 'esbuild'
+  - esbuild
+  - nx
