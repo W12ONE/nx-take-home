@@ -2,7 +2,9 @@ packages:
   - packages/*
   - packages/cli-tools/git/*
   - packages/cli-tools/*
+  - apps/*
 
 onlyBuiltDependencies:
   - esbuild
   - nx
+  - unrs-resolver
