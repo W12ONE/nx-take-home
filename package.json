@@ -6,6 +6,7 @@
   "private": true,
   "devDependencies": {
     "@eslint/js": "^9.8.0",
+    "@nx/esbuild": "21.3.9",
     "@nx/eslint": "21.3.9",
     "@nx/eslint-plugin": "21.3.9",
     "@nx/jest": "^21.3.9",
