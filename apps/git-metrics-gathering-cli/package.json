@@ -1,0 +1,74 @@
+{
+  "name": "@nx-take-home/git-metrics-gathering-cli",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "targets": {
+      "build": {
+        "executor": "@nx/esbuild:esbuild",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "defaultConfiguration": "production",
+        "options": {
+          "platform": "node",
+          "outputPath": "apps/git-metrics-gathering-cli/dist",
+          "format": [
+            "cjs"
+          ],
+          "bundle": false,
+          "main": "apps/git-metrics-gathering-cli/src/main.ts",
+          "tsConfig": "apps/git-metrics-gathering-cli/tsconfig.app.json",
+          "assets": [
+            "apps/git-metrics-gathering-cli/src/assets"
+          ],
+          "esbuildOptions": {
+            "sourcemap": true,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        },
+        "configurations": {
+          "development": {},
+          "production": {
+            "esbuildOptions": {
+              "sourcemap": false,
+              "outExtension": {
+                ".js": ".js"
+              }
+            }
+          }
+        }
+      },
+      "serve": {
+        "continuous": true,
+        "executor": "@nx/js:node",
+        "defaultConfiguration": "development",
+        "dependsOn": [
+          "build"
+        ],
+        "options": {
+          "buildTarget": "@nx-take-home/git-metrics-gathering-cli:build",
+          "runBuildTargetDependencies": false
+        },
+        "configurations": {
+          "development": {
+            "buildTarget": "@nx-take-home/git-metrics-gathering-cli:build:development"
+          },
+          "production": {
+            "buildTarget": "@nx-take-home/git-metrics-gathering-cli:build:production"
+          }
+        }
+      },
+      "test": {
+        "options": {
+          "passWithNoTests": true
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "commander": "^14.0.0"
+  }
+}
