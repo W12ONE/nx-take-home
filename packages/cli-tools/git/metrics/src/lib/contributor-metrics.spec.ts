@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import * as dataAccess from '@nx-take-home/git-data-access';
 import { countMultiProjectContributors } from './contributor-metrics.js';
 
-vi.mock('@nx-take-home-npm/data-access', () => ({
+vi.mock('@nx-take-home/git-data-access', () => ({
   getContributorsForPath: vi.fn(),
 }));
 
