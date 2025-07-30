@@ -1,5 +1,5 @@
 {
-  "name": "@nx-take-home/metrics",
+  "name": "@nx-take-home/git-metrics",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -13,5 +13,8 @@
     },
     "./package.json": "./package.json"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "@nx-take-home/git-data-access": "workspace:*"
+  }
 }
